@@ -28,7 +28,15 @@ This file is a configuration file for every platform IO project.
 
 ## Compile and Upload Source Code
 
-You will find a tab of the left side for building, uploading, and monitoring. 
+You will find a tab of the left side for building, uploading, and monitoring.
 You will also find the same set of command on the bottom panel.
 
 ![upload](./img/build-upload.png)
+
+**Note** For Linux user, you might need to grant a permission for VS Code + Platform IO to access USB device.
+Use the following command.
+Change `ttyUSB0` to other USB device if needed.
+
+```bash
+sudo chmod a+rw /dev/ttyUSB0
+```
