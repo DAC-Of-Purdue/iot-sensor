@@ -18,7 +18,7 @@ def on_message_mqtt(_, userdata, message):
     point = point.tag("sensor_name", sensor_name)
     # extract data in order: temperature, humidity, and timestamp
     data = message.payload.decode("UTF-8").split(":")
-    point = point.field("temperature", data[0]).field("humidity", data[1])
+    point = point.field("temperature", float(data[0])).field("humidity", float(data[1]))
     # record timestamp as UTC
     timestamp = datetime.utcfromtimestamp(int(data[2])).isoformat()
     point = point.time(time=timestamp, write_precision="s")
