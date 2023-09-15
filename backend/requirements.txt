@@ -1,2 +1,4 @@
 paho-mqtt==1.6.1
 influxdb==5.3.1
+fastapi==0.103.1
+uvicorn==0.23.0
