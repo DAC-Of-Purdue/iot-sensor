@@ -6,6 +6,7 @@ def load_all():
 
     load_dotenv()
 
+    # select * from abe3078 where  time > now() - 1m group by "sensor_name"
     influx_client = InfluxDBClient(host=os.environ.get("INFLUX_HOST"), database="dac")
     result = influx_client.query('select * from abe3078 limit 5')
     print(result)
