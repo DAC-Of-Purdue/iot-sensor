@@ -2,3 +2,5 @@ paho-mqtt==1.6.1
 influxdb==5.3.1
 fastapi==0.103.1
 uvicorn==0.23.0
+email-validator==2.0.*
+python-dotenv==1.0.*
