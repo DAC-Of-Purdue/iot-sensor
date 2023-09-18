@@ -1,16 +1,12 @@
 import os
 from influxdb import InfluxDBClient
 from influxdb.resultset import ResultSet
-from dotenv import load_dotenv
 
 
 def query_all_tags(period: str = "5m") -> list[dict]:
-    load_dotenv()
     payload = []
     try:
-        influx_client = InfluxDBClient(
-            host=os.environ.get("INFLUX_HOST"), database="dac", timeout=5
-        )
+        influx_client = InfluxDBClient(database="dac", timeout=10)
         result: ResultSet = influx_client.query(
             f'select * from abe3078 where time > now() - {period} group by "sensor_name";'
         )

@@ -10,6 +10,4 @@ router = APIRouter(prefix="/history", tags=["Historical Data"])
     response_model=list[schemas.HistoricalDataPayload],
 )
 def read_data():
-    payload = crud.query_all_tags()
-    print(payload)
-    return payload
+    return crud.query_all_tags()
