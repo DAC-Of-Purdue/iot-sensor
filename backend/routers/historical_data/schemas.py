@@ -2,6 +2,10 @@ from pydantic import BaseModel
 from datetime import datetime
 
 
+class Message(BaseModel):
+    message: str
+
+
 class HistoricalDataPoint(BaseModel):
     time: datetime
     temperature: float
