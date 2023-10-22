@@ -15,3 +15,19 @@ sudo apt install influxdb-client # install cli client
 influx # activate cli. It will connect to localhost by default
 create database <database-name> # create a new database
 ```
+
+### Create retention policies and continuous queries
+
+```bash
+create retention policy "one_day" on "dac" duration 1d replication 1 default
+
+create continuous query "cq_1h" on "dac"
+begin
+select
+mean("temperature") as "temperature",
+mean("humidity") as "humidity"
+into "abe3078_1h"
+from "abe3078"
+group by time(1h), *
+end
+```
