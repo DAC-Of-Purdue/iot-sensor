@@ -19,15 +19,23 @@ create database <database-name> # create a new database
 ### Create retention policies and continuous queries
 
 ```bash
-create retention policy "one_day" on "dac" duration 1d replication 1 default
+create database raw # first create a raw database
+use raw # change workspace
+# the raw data will be keep only for a week
+create retention policy "one_week" on "raw" duration 1w replication 1 default
 
-create continuous query "cq_1h" on "dac"
+create database dac # this is the main database
+use dac # change workspace
+# this database is 1-hour average data which will be kept for 1 year
+create retention policy "one_year" on "dac" duration 52w replication 1 default
+
+use raw # back to raw data
+create continuous query "cq_1h_dac" on "raw" # create continuous query 
 begin
-select
-mean("temperature") as "temperature",
-mean("humidity") as "humidity"
-into "abe3078_1h"
-from "abe3078"
-group by time(1h), *
+select mean(*) # average all data 
+# dump average data into dac database with one year retention policy
+into "dac"."one_year".:MEASUREMENT 
+from /.*/ # query from current database (raw)
+group by time(1h), * # query every 1 hour and preserve tags (*)
 end
 ```

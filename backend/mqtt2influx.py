@@ -27,7 +27,7 @@ def on_message_mqtt(_, userdata, message):
 
 
 if __name__ == "__main__":
-    influx_client = InfluxDBClient(database="dac")
+    influx_client = InfluxDBClient(database="raw")
 
     subscribe.callback(
         callback=on_message_mqtt,
