@@ -1,6 +1,6 @@
 import paho.mqtt.subscribe as subscribe
 from datetime import datetime
-from influxdb import InfluxDBClient
+from influxdb import InfluxDBClient, exceptions
 
 MQTT_ROOT_TOPIC = "purdue-dac"
 
@@ -22,8 +22,13 @@ def on_message_mqtt(_, userdata, message):
         }
     ]
     # record data into influxdb
-    influx_client.write_points(point)
-    print(f"Record data from {sensor_name} at {timestamp}")
+    try:
+        influx_client.write_points(point)
+        print(f"{datetime.now().isoformat()}: Record data from {sensor_name} at {timestamp}")
+    except exceptions.InfluxDBClientError as e:
+        print(f"{datetime.now().isoformat()}: {e.content}")
+    except Exception as e:
+        print(f"{datetime.now().isoformat()}: {e}")
 
 
 if __name__ == "__main__":
