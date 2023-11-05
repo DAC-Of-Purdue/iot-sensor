@@ -12,7 +12,7 @@ origins = ["http://localhost:4200", "http://localhost:8005", "10.165.77.242:4200
 app = FastAPI(
     title="Purdue DAC IoT API",
     description=description,
-    version="0.1.0",
+    version="0.2.0",
     contact={"name": "Tam Bureetes", "email": "tbureete@purdue.edu"},
 )
 
