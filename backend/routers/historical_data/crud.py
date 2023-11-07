@@ -1,6 +1,16 @@
+import re
 from influxdb import InfluxDBClient
 from influxdb.resultset import ResultSet
 
+
+def remove_prefix(points: list, suffix: str):
+    regex = re.compile(f"{suffix}_*")
+    sample = points[0]
+    for key in list(filter(regex.match, sample.keys())):
+        new_key = key[re.match(regex, key).end() :]
+        [point.update({new_key: point.pop(key)}) for point in points]
+        
+    return points
 
 def query_data(
     period: str | None, sensor_name: str | None = None, raw_data: bool = False
@@ -23,6 +33,7 @@ def query_data(
             for data in result.items()[0][1]:
                 del data["sensor_name"]
                 payload.append(data)
+            payload = remove_prefix(payload, "mean")
 
         # All sensors
         else:
@@ -33,7 +44,7 @@ def query_data(
                 payload.append(
                     {
                         "sensor_name": data[0][1]["sensor_name"],
-                        "points": [point for point in data[1]],
+                        "points": remove_prefix([point for point in data[1]], "mean"),
                     }
                 )
     except Exception as e:
