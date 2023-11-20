@@ -1,5 +1,6 @@
-paho-mqtt==1.6.1
-influxdb==5.3.1
-fastapi==0.103.1
-uvicorn==0.23.0
+paho-mqtt==1.6.*
+influxdb==5.3.*
+fastapi==0.104.*
+uvicorn==0.24.*
+gunicorn==21.*
 email-validator==2.0.*
