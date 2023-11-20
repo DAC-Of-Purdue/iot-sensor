@@ -7,18 +7,16 @@ description = """
 Purdue Digital Agriculture club IoT API.
 """
 
-origins = ["http://localhost:4200", "http://localhost:8005", "10.165.77.242:4200"]
-
 app = FastAPI(
     title="Purdue DAC IoT API",
     description=description,
-    version="0.2.0",
+    version="0.2.1",
     contact={"name": "Tam Bureetes", "email": "tbureete@purdue.edu"},
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
