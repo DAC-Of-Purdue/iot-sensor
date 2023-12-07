@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from fastapi.responses import Response
 from . import crud, schemas
 
-router = APIRouter(prefix="/history", tags=["Historical Data"])
+router = APIRouter(prefix="/history", tags=["Historical data"])
 
 
 @router.get(

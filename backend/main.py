@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from routers.historical_data import historical_data
+from routers.groot import groot
 
 description = """
 Purdue Digital Agriculture club IoT API.
@@ -23,3 +23,4 @@ app.add_middleware(
 )
 
 app.include_router(historical_data.router)
+app.include_router(groot.router)
