@@ -14,9 +14,9 @@
 #define PUMPBNEG 23   // Pump B negative pin
 
 #define uS_TO_S_FACTOR 1000000 /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP 0.5      /* Time ESP32 will go to sleep (in seconds) */
+#define TIME_TO_SLEEP 20       /* Time ESP32 will go to sleep (in minutes) */
 
-#define HTTPURL "http://192.168.0.105:8000/groot/command" // COmmand server
+#define HTTPURL "http://66.253.158.154:50005/groot/command" // COmmand server
 
 const char *ntpServer = "pool.ntp.org"; // Timestamp server
 char deviceName[20] = "3078-outside";   // Name that uniquely identify your device
@@ -36,7 +36,7 @@ float humidity, temperature;
 
 void onConnectionEstablished();
 unsigned long getTime();
-void runPumps(int);
+void runPumps(float);
 
 void setup()
 {
@@ -72,7 +72,7 @@ void loop()
     isMeasure = true;
   }
 
-  if (client.isWifiConnected() or epochTime == 0)
+  if (client.isWifiConnected() and epochTime == 0)
   {
     epochTime = getTime();
     Serial.printf("Timestamp: %ld\n", epochTime);
@@ -89,6 +89,7 @@ void loop()
 
   if (client.isWifiConnected() and !isWater)
   {
+    isWater = true;
     HTTPClient http;
     http.begin(HTTPURL);
     int httpCode = http.GET();
@@ -110,7 +111,7 @@ void loop()
         if (water)
         {
           Serial.println("Need to water");
-          runPumps(2);
+          runPumps(0.2);
 
           StaticJsonDocument<16> doc;
           doc["water"] = true;
@@ -118,10 +119,6 @@ void loop()
           serializeJson(doc, output);
           http.begin(HTTPURL);
           int httpCode = http.POST(output);
-          if (httpCode == 201)
-          {
-            isWater = true;
-          }
         }
       }
     }
@@ -154,7 +151,7 @@ unsigned long getTime()
   return now;
 }
 
-void runPumps(int seconds)
+void runPumps(float seconds)
 {
   digitalWrite(PUMPAPOS, HIGH);
   delay(seconds * 1000);
