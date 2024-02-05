@@ -10,7 +10,7 @@ Purdue Digital Agriculture club IoT API.
 app = FastAPI(
     title="Purdue DAC IoT API",
     description=description,
-    version="0.2.1",
+    version="0.2.2",
     contact={"name": "Tam Bureetes", "email": "tbureete@purdue.edu"},
 )
 
