@@ -4,23 +4,23 @@
 #include "time.h"
 // Define the sensor
 #define DHTPIN 5      // Connection pin
-#define DHTTYPE DHT11 // DHT version
+#define DHTTYPE DHT22 // DHT version
 #define LED 2         // On-board LED
 
 const char *ntpServer = "pool.ntp.org"; // Timestamp server
-char deviceName[20] = "abe3042";        // Name that uniquely identify your device
+char deviceName[20] = "ag-week-demo-1"; // Name that uniquely identify your device
 
 unsigned long epochTime; // Timestamp
 uint32_t chipId = 0;
 EspMQTTClient client(
     "DigitalAGClub", // WiFi SSID at the maker space
-    "username",      // WiFi password
+    "AgWeekDemo",    // WiFi password
     "broker.emqx.io" // MQTT Broker server IP
 );
 
 DHT dht(DHTPIN, DHTTYPE); // Create a variable for the sensor
 char payload[50];
-char topic[30];
+char topic[40];
 
 void onConnectionEstablished()
 // This function activate when connection is established with the broker
@@ -36,10 +36,10 @@ void onConnectionEstablished()
 void setup()
 {
   Serial.begin(9600);
-  dht.begin();                                 // Initialize the sensor
-  sprintf(topic, "purdue-dac/%s", deviceName); // Set MQTT Topic
-  pinMode(LED, OUTPUT);                        // Initialize LED
-  digitalWrite(LED, LOW);                      // Set LED to off
+  dht.begin();                                        // Initialize the sensor
+  sprintf(topic, "purdue-dac/sensor/%s", deviceName); // Set MQTT Topic
+  pinMode(LED, OUTPUT);                               // Initialize LED
+  digitalWrite(LED, LOW);                             // Set LED to off
   // Printing controller detail
   for (int i = 0; i < 17; i = i + 8)
   // Read chip ID
